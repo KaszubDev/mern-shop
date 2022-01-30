@@ -1,12 +1,8 @@
-import express from 'express'
-import data from './data'
+import http from 'http'
+import app from './app'
 
-const app = express()
+const server = http.createServer(app)
 
-app.get('/api/products', (req, res) => {
-    res.send(data.products)
-})
-
-app.listen(5000, () => {
+server.listen(5000, () => {
     console.log("Server started at http://localhost:5000")
 })

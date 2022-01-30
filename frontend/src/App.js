@@ -1,5 +1,8 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import './App.css'
+import HomeScreen from './screens/HomeScreen'
+import ProductScreen from './screens/ProductScreen'
 
 const Header = styled.header`
   width: 100%;
@@ -25,22 +28,29 @@ const Footer = styled.footer`
 `
 
 const Main = styled.main`
-  min-height: 600px;
+  max-width: 1320px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 50px auto;
+  min-height: 400px;
 `
 
 function App() {
   return (
-    <>
-      <Header>
-        Real Big Shop
-      </Header>
-      <Main>
-
-      </Main>
-      <Footer>
-        Happy coding!
-      </Footer>
-    </>
+  <BrowserRouter>
+    <Header>
+      Real Big Shop
+    </Header>
+    <Main>
+      <Routes>
+        <Route path="/" exact="true" element={<HomeScreen/>} />
+        <Route path="/products/:id" element={<ProductScreen/>} />
+      </Routes>
+    </Main>
+    <Footer>
+      Happy coding!
+    </Footer>
+  </BrowserRouter>
   );
 }
 
