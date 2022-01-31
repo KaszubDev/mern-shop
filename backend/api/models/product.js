@@ -15,6 +15,10 @@ const productSchema = mongoose.Schema({
     },
     producer: {
         type: String,
+        required: false
+    },
+    productImage: {
+        type: String,
         required: true
     }
 })

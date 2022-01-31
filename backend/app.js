@@ -2,6 +2,7 @@ import express from 'express'
 import productRoutes from './api/routes/products'
 import orderRoutes from './api/routes/orders'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 import './db'
 
 const app = express()
@@ -10,10 +11,12 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 app.use(bodyParser.json())
+app.use('/uploads', express.static('uploads'))
 
+app.use(cors())
 app.use((res, req, next) => {
     res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Headers', '*')
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
     if (req.method === 'OPTIONS') {
         res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET')
         return res.status(200).json({})

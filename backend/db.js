@@ -1,8 +1,6 @@
 import mongoose from 'mongoose'
 import { url } from './config'
 
-console.log(url)
-
 mongoose.connect(url)
     .then( () => {
         console.log('Connected to database')

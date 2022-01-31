@@ -31,8 +31,8 @@ const Main = styled.main`
   max-width: 1320px;
   padding-left: 20px;
   padding-right: 20px;
-  margin: 50px auto;
-  min-height: 400px;
+  margin: 30px auto;
+  min-height: 65vh;
 `
 
 function App() {

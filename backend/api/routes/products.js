@@ -1,11 +1,33 @@
 import express from 'express'
 import Product from '../models/product'
+import multer from 'multer'
+
+const storage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, './uploads/')
+    },
+    filename: function(req, file, callback) {
+        callback(null, file.originalname)
+    }
+})
+
+const fileFilter = (req, file, callback) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        callback(null, true)
+    } else {
+        callback(null, false)
+    }
+}
 
 const router = express.Router()
+const upload = multer({
+    storage: storage,
+    fileFilter: fileFilter
+})
 
 router.get('/', (req, res, next) => {
     Product.find()
-    .select('name price category producer _id')
+    .select('name price category producer _id productImage')
     .exec()
     .then(docs => {
         const response = {
@@ -17,6 +39,7 @@ router.get('/', (req, res, next) => {
                     price: doc.price,
                     category: doc.category,
                     producer: doc.producer,
+                    productImage: doc.productImage,
                     request: {
                         type: 'GET',
                         url: 'http://localhost:5000/products/' + doc._id
@@ -33,12 +56,14 @@ router.get('/', (req, res, next) => {
     })
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', upload.single('productImage'), (req, res, next) => {
+    console.log(req.file)
     const product = new Product({
         name: req.body.name,
         category: req.body.category,
         price: req.body.price,
-        producer: req.body.producer
+        producer: req.body.producer,
+        productImage: req.file.path
     })
     product.save().then(result => {
         res.status(201).json({
@@ -66,7 +91,7 @@ router.post('/', (req, res, next) => {
 router.get('/:productId', (req, res, next) => {
     const id = req.params.productId
     Product.findById(id)
-    .select('name price category producer _id')
+    .select('name price category producer _id productImage')
     .exec().then(doc => {
         if (doc) {
             res.status(200).json({
