@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
+import React, { useEffect } from 'react'
+import ProductBlock from '../components/ProductBlock'
 import styled from 'styled-components'
-
-const API_URL='http://localhost:5000/'
+import { useDispatch, useSelector } from 'react-redux'
+import { listProducts } from '../actions/productActions'
 
 const Products = styled.ul`
     display: flex;
@@ -15,12 +14,6 @@ const Products = styled.ul`
     margin-top: 30px;
 `
 
-const Product = styled.li`
-    width: 30%;
-    margin-bottom: 40px;
-    text-align: center;
-`
-
 const CountInfo = styled.span`
     text-align: right;
     display: block;
@@ -28,52 +21,43 @@ const CountInfo = styled.span`
     font-weight: 500;
 `
 
-const ProductInner = styled.div`
-    padding: 30px;
-    border: 1px solid #000;
-`
-
-const ProductTitle = styled.span`
-    font-size: 18px;
-    font-weight: 600;
-    display: block;
-`
-
 function HomeScreen (props) {
-
-    const [products, setProduct] = useState([])
-    const [productsCount, setCount] = useState()
+    const productList = useSelector(state => state.productList)
+    const { products, loading, error } = productList
+    const dispatch = useDispatch()
 
     useEffect(() => {
-      const fetchData = async () => {
-          const {data} = await axios.get(API_URL + "products/")
-          setProduct(data.products)
-          setCount(data.count)
-      }
-      fetchData()
+      dispatch(listProducts())
       return () => {
       };
     }, []);
 
-    return (
-        <>
-            <CountInfo>Total products: {productsCount}</CountInfo>
-            <Products>
-            {
-                products.map(product =>
-                    <Product key={product._id}>
-                        <Link to={`/products/${product._id}`}>
-                            <ProductInner>
-                                <ProductTitle>{product.name}</ProductTitle>
-                                Price: ${product.price}
-                            </ProductInner>
-                        </Link>
-                    </Product>
-                )
-            }
-            </Products>
-        </>
-    )
+    if ( !loading && products.products ) {
+        return(
+            <div>
+             <CountInfo>Total products: 10</CountInfo>
+             <Products>
+             {
+                 products.products.map(product =>
+                    <ProductBlock key={product._id} id={product._id} name={product.name} price={product.price} img={product.productImage}></ProductBlock>
+                 )
+             }
+             </Products>
+         </div>
+        )
+    } else if ( loading ) {
+        return (
+            <div>Loading...</div>
+        )
+    } else if ( error ) {
+        return (
+            <div>{`Error: ${error}`}</div>
+        )
+    } else {
+        return (
+            <div></div>
+        )
+    }
 }
 
 export default HomeScreen;

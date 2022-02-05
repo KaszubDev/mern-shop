@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import HomeScreen from './screens/HomeScreen'
 import ProductScreen from './screens/ProductScreen'
