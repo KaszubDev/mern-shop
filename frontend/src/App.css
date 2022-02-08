@@ -8,3 +8,11 @@ a {
 .d-block {
     display: block;
 }
+
+.backBtn:hover {
+    text-decoration: underline;
+}
+
+table, th, td {
+    border: 1px solid black;
+}

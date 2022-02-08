@@ -12,11 +12,14 @@ const listProducts = () => async (dispatch) => {
     }
 }
 
-const detailsProduct = (productId) => async (dispatch) => {
+const detailsProduct = (productId, isProductPage) => async (dispatch) => {
     try {
         dispatch({type: PRODUCT_DETAILS_REQUEST, payload: productId})
         const {data} = await axios.get(API_URL + "products/" + productId)
         dispatch({type: PRODUCT_DETAILS_SUCCESS, payload: data})
+        if ( isProductPage ) {
+            document.title = `Mern Shop - ${data.product.name}`
+        }
     } catch (error) {
         dispatch({type: PRODUCT_DETAILS_FAIL, payload: error.message})
     }

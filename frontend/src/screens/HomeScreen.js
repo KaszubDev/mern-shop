@@ -6,12 +6,16 @@ import { listProducts } from '../actions/productActions'
 
 const Products = styled.ul`
     display: flex;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     justify-content: space-between;
     list-style: none;
     padding: 0;
     margin: 0;
     margin-top: 30px;
+    &:after {
+        content: '';
+        width: 30%;
+    }
 `
 
 const CountInfo = styled.span`
@@ -28,6 +32,7 @@ function HomeScreen (props) {
 
     useEffect(() => {
       dispatch(listProducts())
+      document.title = "Mern Shop - Home"
       return () => {
       };
     }, []);
@@ -35,11 +40,19 @@ function HomeScreen (props) {
     if ( !loading && products.products ) {
         return(
             <div>
-             <CountInfo>Total products: 10</CountInfo>
+             <CountInfo>Total products: {products.count}</CountInfo>
              <Products>
              {
                  products.products.map(product =>
-                    <ProductBlock key={product._id} id={product._id} name={product.name} price={product.price} img={product.productImage}></ProductBlock>
+                    <ProductBlock
+                        key={product._id}
+                        id={product._id}
+                        name={product.name}
+                        price={product.price}
+                        img={product.productImage}
+                        cat={product.category}
+                        >
+                    </ProductBlock>
                  )
              }
              </Products>

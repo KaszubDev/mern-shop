@@ -5,6 +5,14 @@ const Product = styled.li`
     width: 30%;
     margin-bottom: 40px;
     text-align: center;
+    img {
+        transition: all .25s ease-in-out;
+    }
+    &:hover {
+        img {
+            opacity: 0.8;
+        }
+    }
 `
 
 const ProductInner = styled.div`
@@ -21,8 +29,14 @@ const ProductTitle = styled.span`
 const ProductImage = styled.img.attrs(props => ({
     src: props.src
 }))`
-    width: 100%;
+    width: auto;
     height: auto;
+    max-height: 200px;
+    margin-bottom: 20px;
+`
+
+const ProductCategory = styled.span`
+    display: block;
 `
 
 function ProductBlock(props) {
@@ -32,6 +46,7 @@ function ProductBlock(props) {
                 <ProductInner>
                 <ProductImage src={props.img}></ProductImage>
                 <ProductTitle>{props.name}</ProductTitle>
+                <ProductCategory>Category: {props.cat}</ProductCategory>
                     Price: ${props.price}
                 </ProductInner>
             </Link>

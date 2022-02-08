@@ -1,8 +1,9 @@
 import styled from 'styled-components'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import './App.css'
 import HomeScreen from './screens/HomeScreen'
 import ProductScreen from './screens/ProductScreen'
+import CartScreen from './screens/CartScreen'
 
 const Header = styled.header`
   width: 100%;
@@ -12,9 +13,16 @@ const Header = styled.header`
   align-items: center;
   justify-content: center;
   font-family: 'Roboto', sans-serif;
-  color: #fff;
-  font-size: 1.8rem;
-  font-weight: 700;
+  position: relative;
+  h1 {
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  .headerCartBtn {
+    position: absolute;
+    right: 35px;
+  }
 `
 
 const Footer = styled.footer`
@@ -32,18 +40,23 @@ const Main = styled.main`
   padding-left: 20px;
   padding-right: 20px;
   margin: 30px auto;
-  min-height: 65vh;
+  min-height: 80vh;
 `
 
 function App() {
   return (
   <BrowserRouter>
     <Header>
-      Real Big Shop
+      <Link to="/"><h1>Real Big Shop</h1></Link>
+      <div className='headerCartBtn'>
+        <Link to="/cart"><img src='/uploads/cart-icon.png'/></Link>
+      </div>
     </Header>
     <Main>
       <Routes>
         <Route path="/" exact="true" element={<HomeScreen/>} />
+        <Route path="/cart/:id" element={<CartScreen/>}/>
+        <Route path="/cart" element={<CartScreen/>}/>
         <Route path="/products/:id" element={<ProductScreen/>} />
       </Routes>
     </Main>
