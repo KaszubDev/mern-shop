@@ -40,4 +40,8 @@ jspm_packages
 #Excluding build directory
 public/
 
+#Exclude env file
 .env
+
+#Exclude IDE files
+.idea

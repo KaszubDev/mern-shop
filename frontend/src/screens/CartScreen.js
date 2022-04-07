@@ -67,7 +67,7 @@ function CartScreen(props){
     }
     const navigate = useNavigate()
     const checkoutHandler = () => {
-      navigate('/signin?redirect=shipping')
+      navigate('/login?redirect=checkout')
     }
 
     useEffect(() => {

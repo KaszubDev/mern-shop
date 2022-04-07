@@ -4,6 +4,13 @@ import './App.css'
 import HomeScreen from './screens/HomeScreen'
 import ProductScreen from './screens/ProductScreen'
 import CartScreen from './screens/CartScreen'
+import LoginScreen from './screens/LoginScreen'
+import RegisterScreen from './screens/RegisterScreen'
+import { useSelector } from 'react-redux'
+import ProfileScreen from './screens/ProfileScreen'
+import CheckoutScreen from './screens/CheckoutScreen'
+import PaymentScreen from "./screens/PaymentScreen";
+import OrderScreen from "./screens/OrderScreen";
 
 const Header = styled.header`
   width: 100%;
@@ -19,9 +26,15 @@ const Header = styled.header`
     font-size: 1.8rem;
     font-weight: 700;
   }
-  .headerCartBtn {
+  .headerRightButtons {
     position: absolute;
     right: 35px;
+    display: flex;
+    align-items: center;
+  }
+  .loginBtn {
+    margin-right: 20px;
+    color: #fff;
   }
 `
 
@@ -44,20 +57,33 @@ const Main = styled.main`
 `
 
 function App() {
+  const userLogin = useSelector(state => state.userLogin)
+  const { userInfo } = userLogin
+
   return (
   <BrowserRouter>
     <Header>
       <Link to="/"><h1>Real Big Shop</h1></Link>
-      <div className='headerCartBtn'>
+      <div className='headerRightButtons'>
+        {
+          userInfo ? <Link className='loginBtn' to='/profile'>{userInfo.name}</Link> :
+          <Link to="/login" className='loginBtn'>Login</Link>
+        }
         <Link to="/cart"><img src='/uploads/cart-icon.png'/></Link>
       </div>
     </Header>
     <Main>
       <Routes>
-        <Route path="/" exact="true" element={<HomeScreen/>} />
+        <Route path="/" exact="true" element={<HomeScreen/>}/>
+        <Route path='/register' element={<RegisterScreen/>}/>
+        <Route path='/login' element={<LoginScreen/>}/>
         <Route path="/cart/:id" element={<CartScreen/>}/>
         <Route path="/cart" element={<CartScreen/>}/>
-        <Route path="/products/:id" element={<ProductScreen/>} />
+        <Route path="/products/:id" element={<ProductScreen/>}/>
+        <Route path="/profile" element={<ProfileScreen/>}/>
+        <Route path='/checkout' element={<CheckoutScreen/>}/>
+        <Route path='/payment' element={<PaymentScreen/>}/>
+        <Route path='/order' element={<OrderScreen/>}/>
       </Routes>
     </Main>
     <Footer>

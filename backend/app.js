@@ -1,6 +1,7 @@
 import express from 'express'
 import productRoutes from './api/routes/products'
 import orderRoutes from './api/routes/orders'
+import userRoutes from './api/routes/users'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import './db'
@@ -26,6 +27,7 @@ app.use((res, req, next) => {
 
 app.use('/products', productRoutes)
 app.use('/orders', orderRoutes)
+app.use('/users', userRoutes)
 
 app.use((req, res, next) => {
     const error = new Error('Not found')
