@@ -1,6 +1,11 @@
 import axios from "axios"
-import Cookie from 'js-cookie'
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants"
+import Cookies from 'js-cookie'
+import {
+    CART_ADD_ITEM,
+    CART_REMOVE_ITEM,
+    CART_SAVE_PAYMENT_METHOD,
+    CART_SAVE_SHIPPING_ADDRESS
+} from "../constants/cartConstants"
 import { API_URL } from "../constants/global"
 
 const addToCart = (productId) => async (dispatch, getState) => {
@@ -15,7 +20,7 @@ const addToCart = (productId) => async (dispatch, getState) => {
             producer: data.product.producer
         }})
         const {cart:{cartItems}} = getState()
-        Cookie.set('cartItems', JSON.stringify(cartItems))
+        Cookies.set('cartItems', JSON.stringify(cartItems))
 
     } catch (error) {
 
@@ -26,7 +31,16 @@ const removeFromCart = (productId) => (dispatch, getState) => {
     dispatch({type: CART_REMOVE_ITEM, payload: productId})
 
     const {cart:{cartItems}} = getState()
-    Cookie.set('cartItems', JSON.stringify(cartItems))
+    Cookies.set('cartItems', JSON.stringify(cartItems))
 }
 
-export { addToCart, removeFromCart }
+const saveShippingAddress = (data) => (dispatch) => {
+    dispatch({type: CART_SAVE_SHIPPING_ADDRESS, payload: data})
+    Cookies.set('shippingData', JSON.stringify(data))
+}
+
+const savePaymentMethod = (data) => (dispatch) => {
+    dispatch({type: CART_SAVE_PAYMENT_METHOD, payload: data})
+}
+
+export { addToCart, removeFromCart, saveShippingAddress, savePaymentMethod }

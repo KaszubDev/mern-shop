@@ -1,7 +1,15 @@
 import axios from "axios"
 import Cookies from "js-cookie"
 import { API_URL } from "../constants/global"
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from "../constants/userConstants"
+import {
+    USER_LOGIN_FAIL,
+    USER_LOGIN_REQUEST,
+    USER_LOGIN_SUCCESS,
+    USER_LOGOUT,
+    USER_REGISTER_FAIL,
+    USER_REGISTER_REQUEST,
+    USER_REGISTER_SUCCESS
+} from "../constants/userConstants"
 
 const login = (email, password) => async (dispatch) => {
     dispatch({
@@ -43,18 +51,13 @@ const register = (name, email, password) => async (dispatch) => {
     }
 }
 
-const logout = () => async (dispatch) => {
-    try {
-        Cookies.remove("userInfo")
-        dispatch({
-            type: USER_LOGIN_SUCCESS
-        })
-    } catch (error) {
-        dispatch({
-            type: USER_LOGIN_FAIL,
-            payload: error.message
-        })
-    }
+const logout = () => (dispatch) => {
+    Cookies.remove("userInfo")
+    Cookies.remove("cartItems")
+    Cookies.remove("shippingData")
+    dispatch({
+        type: USER_LOGOUT
+    })
 }
 
 export { login, register, logout }

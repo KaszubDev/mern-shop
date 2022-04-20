@@ -1,6 +1,6 @@
 import express from 'express'
 import Order from '../models/order'
-import Product from '../models/product'
+import { isAuth } from '../../util'
 
 const router = express.Router()
 
@@ -30,39 +30,36 @@ router.get('/', (req, res, next) => {
     })
 })
 
-router.post('/', (req, res, next) => {
-    Product.findById(req.body.productId)
-    .then(product => {
-        if ( !product ) {
-            return res.status(404).json({
-                message: 'Product not found'
-            })
-        }
+router.post('/', isAuth, (req, res, next) => {
+    if (req.body.orderItems.length === 0) {
+        res.status(404).json({
+            message: 'Cart is empty'
+        })
+    } else {
         const order = new Order({
-            product: req.body.productId,
-            quantity: req.body.quantity
+            orderItems: req.body.orderItems,
+            shippingAddress: req.body.shippingData,
+            paymentMethod: req.body.paymentMethod,
+            itemsPrice: req.body.itemsPrice,
+            shippingPrice: req.body.shippingPrice,
+            totalPrice: req.body.totalPrice,
+            user: req.user._id
         })
-        return order.save()
-    })
-    .then(result => {
-        res.status(201).json({
-            message: 'Order created',
-            createdOrder: {
-                _id: result._id,
-                product: result.product,
-                quantity: result.quantity
-            },
-            request: {
-                type: 'GET',
-                url: 'http://localhost:5000/orders/' + result._id
-            }
+        order.save().then(newOrder => {
+            res.status(201).json({
+                message: 'New Order Created',
+                createdOrder: newOrder,
+                request: {
+                    type: 'GET',
+                    url: 'http://localhost:5000/orders/' + newOrder._id
+                }
+            })
+        }).catch(err => {
+            res.status(500).json({
+                error: err
+            })
         })
-    })
-    .catch(err => {
-        res.status(500).json({
-            error: err
-        })
-    })
+    }
 })
 
 router.get('/:orderId', (req, res, next) => {

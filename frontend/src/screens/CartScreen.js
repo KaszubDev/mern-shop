@@ -15,9 +15,7 @@ const Table = styled.table`
 
 const TableRow = styled.tr.attrs(props => ({
   key: props.key
-}))`
-
-`
+}))``
 
 const TotalPrice = styled.span`
   display: block;
