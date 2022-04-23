@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {createOrder} from "../actions/orderActions";
 import {ORDER_CREATE_RESET} from "../constants/orderConstants";
+import CustomButton from "../components/CustomButton";
 
 const Container = styled.div`
 
@@ -113,7 +114,9 @@ function OrderScreen(props) {
                     </tbody>
                 </Table>
                 <TotalPrice>Total: ${cart.itemsPrice}</TotalPrice>
-                <ConfirmButton onClick={submitHandler}>Place order</ConfirmButton>
+                <div align="right">
+                    <CustomButton onClick={submitHandler} text="Place order"></CustomButton>
+                </div>
                 {loading && <p>{loading}</p>}
                 {error && <p>{error}</p>}
             </div> }

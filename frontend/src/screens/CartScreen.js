@@ -3,10 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components';
 import { addToCart, removeFromCart } from '../actions/cartActions';
+import CustomButton from "../components/CustomButton";
+
 
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
+  border-spacing: 0px;
   text-align: center;
   td, th {
     padding: 10px;
@@ -22,24 +25,6 @@ const TotalPrice = styled.span`
   text-align: right;
   margin-top: 20px;
   font-weight: 500;
-`
-
-const CheckoutButton = styled.button.attrs(props => ({
-  onClick: props.onClick
-}))`
-  display: inline-block;
-  cursor: pointer;
-    background-color: #000;
-    border: 1px solid #000;
-    padding: 10px 15px;
-    margin-top: 20px;
-    border-radius: 50px;
-    color: #fff;
-    transition: all .25s ease-in-out;
-    &:hover {
-        background-color: #fff;
-        color: #000;
-    }
 `
 
 const RemoveButton = styled.button.attrs(props => ({
@@ -103,7 +88,7 @@ function CartScreen(props){
             </Table>
             <TotalPrice>Total: ${cartItems.reduce((a,c) => a + c.price, 0)}</TotalPrice>
             <div align="right">
-              <CheckoutButton onClick={checkoutHandler}>Go to checkout</CheckoutButton>
+                <CustomButton onClick={checkoutHandler} text="Go to checkout"></CustomButton>
             </div>
           </div>
           }

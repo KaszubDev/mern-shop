@@ -4,6 +4,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import styled from 'styled-components';
 import { detailsProduct } from '../actions/productActions';
 import { API_URL } from '../constants/global';
+import CustomButton from "../components/CustomButton";
 
 const GlobalWrapper = styled.div`
 
@@ -33,23 +34,6 @@ const ProductDescription = styled.div`
 const ProductFeature = styled.span`
     display: block;
     margin: 10px auto;
-`
-
-const BuyButton = styled.button.attrs(props => ({
-    onClick: props.onClick
-}))`
-    cursor: pointer;
-    background-color: #000;
-    border: 1px solid #000;
-    padding: 10px 15px;
-    margin-top: 20px;
-    border-radius: 50px;
-    color: #fff;
-    transition: all .25s ease-in-out;
-    &:hover {
-        background-color: #fff;
-        color: #000;
-    }
 `
 
 function ProductScreen (props) {
@@ -84,7 +68,7 @@ function ProductScreen (props) {
                         <ProductFeature>Category: {product.product.category}</ProductFeature>
                         <ProductFeature>Producer: {product.product.producer}</ProductFeature>
                         <ProductFeature>Price: <strong>${product.product.price}</strong></ProductFeature>
-                        <BuyButton onClick={addToCart}>Add to cart</BuyButton>
+                        <CustomButton onClick={addToCart} text="Add to cart"></CustomButton>
                     </ProductDescription>
                 </ProductContainer>
                 ) : false}

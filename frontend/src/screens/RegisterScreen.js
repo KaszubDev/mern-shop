@@ -5,7 +5,41 @@ import styled from 'styled-components';
 import { register } from '../actions/userActions';
 
 const Container = styled.div`
+  text-align: center;
+  width: 100%;
+  h2 {
+    font-size: 30px;
+  }
+  form {
+    max-width: 20%;
+    margin: 0 auto;
+    input {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+  }
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`
 
+const RegisterButton = styled.button `
+    width: 100%;
+    background-color: #000;
+    border: 1px solid #000;
+    padding: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: all .25s ease-in-out;
+    margin-top: 10px;
+    &:hover {
+        background-color: #fff;
+        color: #000;
+    }
 `
 
 function RegisterScreen(props) {
@@ -13,14 +47,12 @@ function RegisterScreen(props) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [rePassword, setRePassword] = useState('')
-    const userRegister = useSelector(state => state.userRegister)
+    const userRegister = useSelector((state) => state.userRegister)
     const { loading, userInfo, error } = userRegister
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const redirect = searchParams.get("redirect") ? searchParams.get("redirect") : '/'
-
-    console.log(redirect)
 
     useEffect(() => {
         if (userInfo) {
@@ -44,7 +76,7 @@ function RegisterScreen(props) {
                 <input required type="email" placeholder='Your email' name='email' onChange={(e) => setEmail(e.target.value)}/>
                 <input required type="password" placeholder='Your password' name='password' onChange={(e) => setPassword(e.target.value)}/>
                 <input required type="password" placeholder='Your password' name='rePassword' onChange={(e) => setRePassword(e.target.value)}/>
-                <button type="submit">Create new account</button>
+                <RegisterButton type="submit">Create new account</RegisterButton>
             </form>
             <p>Have got an account already?</p>
             <Link to={redirect === '/' ? '/login' : '/login?redirect=' + redirect}>Go to login screen</Link>

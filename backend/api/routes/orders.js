@@ -13,8 +13,7 @@ router.get('/', (req, res, next) => {
             orders: docs.map(doc => {
                 return {
                     _id: doc._id,
-                    product: doc.product,
-                    quantity: doc.quantity,
+                    price: doc.totalPrice,
                     request: {
                         type: 'GET',
                         url: 'http://localhost:5000/orders/' + doc._id

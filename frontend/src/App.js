@@ -11,6 +11,7 @@ import ProfileScreen from './screens/ProfileScreen'
 import CheckoutScreen from './screens/CheckoutScreen'
 import PaymentScreen from "./screens/PaymentScreen";
 import OrderScreen from "./screens/OrderScreen";
+import ThankyouScreen from "./screens/ThankyouScreen";
 
 const Header = styled.header`
   width: 100%;
@@ -84,6 +85,7 @@ function App() {
         <Route path='/checkout' element={<CheckoutScreen/>}/>
         <Route path='/payment' element={<PaymentScreen/>}/>
         <Route path='/order' element={<OrderScreen/>}/>
+        <Route path='/order/:orderId' element={<ThankyouScreen/>}/>
       </Routes>
     </Main>
     <Footer>
