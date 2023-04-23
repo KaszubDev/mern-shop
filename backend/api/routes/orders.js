@@ -1,6 +1,7 @@
 import express from 'express'
 import Order from '../models/order'
 import { isAuth } from '../../util'
+import { port } from '../../config'
 
 const router = express.Router()
 
@@ -16,7 +17,7 @@ router.get('/', (req, res, next) => {
                     price: doc.totalPrice,
                     request: {
                         type: 'GET',
-                        url: 'http://localhost:5000/orders/' + doc._id
+                        url: `http://localhost:${port}/orders/${doc._id}`
                     }
                 }
             })
@@ -50,7 +51,7 @@ router.post('/', isAuth, (req, res, next) => {
                 createdOrder: newOrder,
                 request: {
                     type: 'GET',
-                    url: 'http://localhost:5000/orders/' + newOrder._id
+                    url: `http://localhost:${port}/orders/${newOrder._id}`
                 }
             })
         }).catch(err => {
@@ -72,7 +73,7 @@ router.get('/:orderId', (req, res, next) => {
                 request: {
                     type: 'GET',
                     description: 'Get all orders',
-                    url: 'http://localhost:5000/orders/'
+                    url: `http://localhost:${port}/orders/`
                 }
             })
         } else {

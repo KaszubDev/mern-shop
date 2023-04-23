@@ -1,6 +1,7 @@
 import express from 'express'
 import Product from '../models/product'
 import multer from 'multer'
+import { port } from '../../config'
 
 const storage = multer.diskStorage({
     destination: function(req, file, callback) {
@@ -42,7 +43,7 @@ router.get('/', (req, res, next) => {
                     productImage: doc.productImage,
                     request: {
                         type: 'GET',
-                        url: 'http://localhost:5000/products/' + doc._id
+                        url: `http://localhost:${port}/products/${doc._i}`
                     }
                 }
             })
@@ -76,7 +77,7 @@ router.post('/', upload.single('productImage'), (req, res, next) => {
                 producer: result.producer,
                 request: {
                     type: 'GET',
-                    url: 'http://localhost:5000/products/' + result._id
+                    url: `http://localhost:${port}/products/${result._id}`
                 }
             }
         })
@@ -99,7 +100,7 @@ router.get('/:productId', (req, res, next) => {
                 request: {
                     type: 'GET',
                     description: 'Get all products',
-                    url: 'http://localhost:5000/products/'
+                    url: `http://localhost:${port}/products/`
                 }
             })
         } else {
@@ -126,7 +127,7 @@ router.patch('/:productId', (req, res, next) => {
             message: 'Product has been updated',
             request: {
                 type: 'GET',
-                url: 'http://localhost:5000/products/' + id
+                url: `http://localhost:${port}/products/${id}`
             }
         })
     })

@@ -35,8 +35,9 @@ const ProductImage = styled.img.attrs(props => ({
     margin-bottom: 20px;
 `
 
-const ProductCategory = styled.span`
+const ProductDetail = styled.span`
     display: block;
+    margin: 10px 0;
 `
 
 function ProductBlock(props) {
@@ -44,10 +45,10 @@ function ProductBlock(props) {
         <Product key={props.id}>
             <Link to={`/products/${props.id}`}>
                 <ProductInner>
-                <ProductImage src={props.img}></ProductImage>
-                <ProductTitle>{props.name}</ProductTitle>
-                <ProductCategory>Category: {props.cat}</ProductCategory>
-                    Price: ${props.price}
+                    <ProductImage src={props.img}></ProductImage>
+                    <ProductTitle>{props.name}</ProductTitle>
+                    <ProductDetail>Category: {props.cat}</ProductDetail>
+                    <ProductDetail>Price: ${props.price}</ProductDetail>
                 </ProductInner>
             </Link>
         </Product>
