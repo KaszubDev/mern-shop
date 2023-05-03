@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductBlock from '../components/ProductBlock'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,28 +19,59 @@ const Products = styled.ul`
 `
 
 const CountInfo = styled.span`
-    text-align: right;
-    display: block;
     font-size: 15px;
     font-weight: 500;
+`
+
+const TopWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `
 
 function HomeScreen (props) {
     const productList = useSelector(state => state.productList)
     const { products, loading, error } = productList
     const dispatch = useDispatch()
+    const [sortOption, setSortOption] = useState("")
+
+    if ( !loading && products.products ) {
+        products.products.sort((a, b) => {
+            const [sortByField, sortOrder] = sortOption.split("-")
+            const aValue = a[sortByField]
+            const bValue = b[sortByField]
+            if (aValue < bValue) {
+                return sortOrder === "asc" ? -1 : 1
+              }
+              if (aValue > bValue) {
+                return sortOrder === "asc" ? 1 : -1
+              }
+            return 0;
+        })
+    }
 
     useEffect(() => {
       dispatch(listProducts())
       document.title = "Mern Shop - Home"
-      return () => {
-      };
-    }, []);
+    }, [dispatch]);
 
     if ( !loading && products.products ) {
         return(
             <div>
-             <CountInfo>Total products: {products.count}</CountInfo>
+            <TopWrapper>
+                <div>
+                    <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+                        <option value="">Sort By</option>
+                        <option value="category">Category</option>
+                        <option value="name-asc">Name: A-Z</option>
+                        <option value="name-desc">Name: Z-A</option>
+                        <option value="price-asc">Price: From lowest</option>
+                        <option value="price-desc">Price: From highest</option>
+                    </select>
+                </div>
+                <CountInfo>Total products: {products.count}</CountInfo>
+            </TopWrapper>
+             
              <Products>
              {
                  products.products.map(product =>

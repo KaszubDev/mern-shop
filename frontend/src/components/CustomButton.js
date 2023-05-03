@@ -27,4 +27,4 @@ function CustomButton(props) {
     )
 }
 
-export default  CustomButton
+export default CustomButton

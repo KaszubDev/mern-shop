@@ -24,3 +24,15 @@ table, th, td {
 h1, h2, h3, h4 {
     font-family: 'Roboto', sans-serif;
 }
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}

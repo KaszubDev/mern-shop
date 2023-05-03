@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {createOrder} from "../actions/orderActions";
 import {ORDER_CREATE_RESET} from "../constants/orderConstants";
@@ -75,15 +75,17 @@ function OrderScreen(props) {
     }, [shippingData, cart.paymentMethod, success, dispatch, order])
 
     const toPrice = (num) => Number(num.toFixed(2))
-    cart.itemsPrice = toPrice(cart.cartItems.reduce((a, c) => a + c.price, 0))
+    cart.itemsPrice = toPrice(cart.cartItems.reduce((accumulator, item) => accumulator + (item.price * item.quantity), 0))
 
-    // To Improve!
+    // Hardcoded! TODO
     cart.shippingPrice = 20
     cart.totalPrice = cart.itemsPrice + cart.shippingPrice
 
+    console.log(cartItems)
+
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(createOrder({...cart, orderItems: cart.cartItems}))
+        dispatch(createOrder({...cart, orderItems: cartItems}))
     }
 
     return (
@@ -101,6 +103,7 @@ function OrderScreen(props) {
                     <thead>
                     <TableRow>
                         <th>Product</th>
+                        <th>Quantity</th>
                         <th>Price</th>
                     </TableRow>
                     </thead>
@@ -108,6 +111,7 @@ function OrderScreen(props) {
                     {cartItems.map(item =>
                         <TableRow key={item.product}>
                             <td>{item.name}</td>
+                            <td>{item.quantity}</td>
                             <td>${item.price}</td>
                         </TableRow>
                     )}

@@ -40,17 +40,34 @@ const ProductDetail = styled.span`
     margin: 10px 0;
 `
 
+const StyledLink = styled(Link)`
+  display: inline-block;
+  cursor: pointer;
+    background-color: #000;
+    border: 1px solid #000;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border-radius: 50px;
+    color: #fff;
+    transition: all .25s ease-in-out;
+    &:hover {
+        background-color: #fff;
+        color: #000;
+    }
+`
+
 function ProductBlock(props) {
     return (
         <Product key={props.id}>
-            <Link to={`/products/${props.id}`}>
                 <ProductInner>
-                    <ProductImage src={props.img}></ProductImage>
-                    <ProductTitle>{props.name}</ProductTitle>
-                    <ProductDetail>Category: {props.cat}</ProductDetail>
-                    <ProductDetail>Price: ${props.price}</ProductDetail>
+                    <Link to={`/products/${props.id}`}>
+                        <ProductImage src={props.img}></ProductImage>
+                        <ProductTitle>{props.name}</ProductTitle>
+                        <ProductDetail>Category: {props.cat}</ProductDetail>
+                        <ProductDetail>Price: ${props.price}</ProductDetail>
+                    </Link>
+                    <StyledLink to={'/cart/'+props.id}>Add to cart</StyledLink>
                 </ProductInner>
-            </Link>
         </Product>
     )
 }

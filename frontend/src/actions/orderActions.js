@@ -5,6 +5,7 @@ import {CART_EMPTY} from "../constants/cartConstants";
 import Cookies from "js-cookie";
 
 const createOrder = (order) => async (dispatch, getState) => {
+    console.log(order)
     dispatch({
         type: ORDER_CREATE_REQUEST,
         payload: order

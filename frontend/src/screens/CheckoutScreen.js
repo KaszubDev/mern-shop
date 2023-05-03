@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {saveShippingAddress} from "../actions/cartActions";
 
@@ -47,10 +47,10 @@ function CheckoutScreen(props) {
     const { userInfo } = userLogin
     const cart = useSelector((state) => state.cart)
     const { shippingData } = cart
-    const [fullName, setFullName] = useState(shippingData.fullName || '')
-    const [address, setAddress] = useState(shippingData.address || '')
-    const [city, setCity] = useState(shippingData.city || '')
-    const [postalCode, setPostalCode] = useState(shippingData.postalCode || '')
+    const [fullName, setFullName] = useState(shippingData?.fullName ? shippingData.fullName : '')
+    const [address, setAddress] = useState(shippingData?.address ? shippingData.address : '')
+    const [city, setCity] = useState(shippingData?.city ? shippingData.city : '')
+    const [postalCode, setPostalCode] = useState(shippingData?.postalCode ? shippingData.postalCode : '')
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -61,7 +61,7 @@ function CheckoutScreen(props) {
         return () => {
 
         }
-    }, [userInfo])
+    }, [userInfo, navigate])
 
     const submitHandler = (e) => {
         e.preventDefault()

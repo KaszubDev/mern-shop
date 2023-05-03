@@ -39,18 +39,41 @@ const RemoveButton = styled.button.attrs(props => ({
   }
 `
 
+const ChangeQuantityButton = styled.button.attrs(props => ({
+  onClick: props.onClick
+}))`
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0 10px;
+  font-size: 1.3rem;
+  &:hover {
+    transform: scale(1.2);
+  }
+`
+
 function CartScreen(props){
     document.title = `Mern Shop - Cart`
     const cart = useSelector(state => state.cart)
     const { cartItems } = cart
     const {id} = useParams()
     const dispatch = useDispatch()
+
+    const productRemoveAllHandler = (productId, isDeleteAll) => {
+      dispatch(removeFromCart(productId, isDeleteAll))
+    }
+
     const productRemoveHandler = (productId) => {
       dispatch(removeFromCart(productId))
     }
     const navigate = useNavigate()
     const checkoutHandler = () => {
       navigate('/login?redirect=checkout')
+    }
+
+    const addItemToCart = (productId) => {
+      dispatch(addToCart(productId))
     }
 
     useEffect(() => {
@@ -73,6 +96,7 @@ function CartScreen(props){
                 <TableRow>
                   <th>Product</th>
                   <th>Price</th>
+                  <th>Quantity</th>
                   <th>Actions</th>
                 </TableRow>
               </thead>
@@ -81,12 +105,19 @@ function CartScreen(props){
               <TableRow key={item.product}>
                 <td>{item.name}</td>
                 <td>${item.price}</td>
-                <td><RemoveButton onClick={() => productRemoveHandler(item.product)}>Delete</RemoveButton></td>
+                <td>
+                  <div className='d-flex align-items-center justify-center'>
+                    <ChangeQuantityButton onClick={() => productRemoveHandler(item.product)}>-</ChangeQuantityButton>
+                    {item.quantity}
+                    <ChangeQuantityButton onClick={() => addItemToCart(item.product)}>+</ChangeQuantityButton>
+                  </div>
+                </td>
+                <td><RemoveButton onClick={() => productRemoveAllHandler(item.product, true)}>Delete</RemoveButton></td>
               </TableRow>
               )}
               </tbody>
             </Table>
-            <TotalPrice>Total: ${cartItems.reduce((a,c) => a + c.price, 0)}</TotalPrice>
+            <TotalPrice>Total: ${cartItems.reduce((accumulator,item) => accumulator + (item.price * item.quantity), 0)}</TotalPrice>
             <div align="right">
                 <CustomButton onClick={checkoutHandler} text="Go to checkout"></CustomButton>
             </div>
