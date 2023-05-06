@@ -42,11 +42,17 @@ const Header = styled.header`
 const Footer = styled.footer`
   background-color: #000;
   width: 100%;
-  padding: 15px 0;
+  padding: 20px 0;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #fff;
+  a {
+    color: #fff;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `
 
 const Main = styled.main`
@@ -89,7 +95,7 @@ function App() {
       </Routes>
     </Main>
     <Footer>
-      Happy coding!
+      <span>Online Shop Project by <a href="https://github.com/KaszubDev">KaszubDev</a></span>
     </Footer>
   </BrowserRouter>
   );

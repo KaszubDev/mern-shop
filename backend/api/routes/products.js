@@ -58,7 +58,6 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', upload.single('productImage'), (req, res, next) => {
-    console.log(req.file)
     const product = new Product({
         name: req.body.name,
         category: req.body.category,

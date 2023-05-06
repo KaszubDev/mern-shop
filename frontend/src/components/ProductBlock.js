@@ -64,6 +64,7 @@ function ProductBlock(props) {
                         <ProductImage src={props.img}></ProductImage>
                         <ProductTitle>{props.name}</ProductTitle>
                         <ProductDetail>Category: {props.cat}</ProductDetail>
+                        <ProductDetail>Producer: {props.producer}</ProductDetail>
                         <ProductDetail>Price: ${props.price}</ProductDetail>
                     </Link>
                     <StyledLink to={'/cart/'+props.id}>Add to cart</StyledLink>
